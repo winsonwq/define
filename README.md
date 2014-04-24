@@ -1,6 +1,6 @@
 # define
 
-> simple and quick module definition library.
+> simple and quick module definition library in web application.
 
 ## quick start
 
