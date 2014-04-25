@@ -1,5 +1,5 @@
-define('module.a', ['module.b'], function (exports, b) {
+define('module.a', [], function (exports) {
   return {
-    value: 'a' + b.value
+    value: 'a'
   };
 });

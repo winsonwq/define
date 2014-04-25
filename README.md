@@ -13,6 +13,7 @@ Only considering that all resources has loaded in `html` file.
 
 <!-- load your libraries -->
 <script type="text/javascript" src="./scripts/app.js"></script>
+<script type="text/javascript" src="./scripts/c.js"></script>
 <script type="text/javascript" src="./scripts/a.js"></script>
 <script type="text/javascript" src="./scripts/b.js"></script>
 ```
@@ -22,9 +23,9 @@ Only considering that all resources has loaded in `html` file.
 `a.js` is depending on `b.js`, and it's **loading before** `b.js`. And use `return` to define a module.
 
 ```js
-define('module.a', ['module.b'], function (exports, b) {
+define('module.a', [], function (exports) {
   return {
-    value: 'a' + b.value
+    value: 'a'
   };
 });
 ```
@@ -32,8 +33,18 @@ define('module.a', ['module.b'], function (exports, b) {
 `b.js` is a standalone module. And use `exports.property` to extend module.
 
 ```js
-define('module.b', [], function (exports, b) {
-  exports.value = 'b';
+define('module.b', ['module.a'], function (exports, a) {
+  exports.value = a.value + 'b';
+});
+```
+
+`c.js` is a asynchronous module. And use `callback` to init.
+
+```js
+define('module.c', ['module.a', 'module.b'], function (exports, a, b, callback) {
+  setTimeout(function () {
+    callback({ value: a.value + b.value + 'c' });
+  }, 1000);
 });
 ```
 
@@ -43,7 +54,13 @@ but in `app.js`, it's depending on the container `module` **(not explicitly defi
 use(['module'], function (module) {
   console.log(module.a.value);
   console.log(module.b.value);
+  console.log(module.c.value);
 });
+
+// output
+// a
+// ab
+// aabc
 ```
 
 # License

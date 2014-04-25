@@ -1,3 +1,3 @@
-define('module.b', [], function (exports, b) {
-  exports.value = 'b';
+define('module.b', ['module.a'], function (exports, a) {
+  exports.value = a.value + 'b';
 });
